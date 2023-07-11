@@ -1,17 +1,13 @@
 package com.grupo4.APIAvesdoBrasil.service;
 
 import com.grupo4.APIAvesdoBrasil.entity.Bird;
+import com.grupo4.APIAvesdoBrasil.repository.BirdsRepository;
 
-import java.util.List;
+public class BirdService {
 
-public interface BirdService {
+    private BirdsRepository birdsRepository;
 
-    List<Bird> findAll();
-
-    Bird findById(int id);
-
-    void save (Bird bird);
-
-    void deleteById(int id);
-
+    public Bird addNewBird(Bird bird) {
+        return birdsRepository.save(bird);
+    }
 }
