@@ -4,6 +4,7 @@ package com.grupo4.APIAvesdoBrasil.controller;
 import com.grupo4.APIAvesdoBrasil.entity.Bird;
 import com.grupo4.APIAvesdoBrasil.service.BirdService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,9 +18,14 @@ public class BirdsController {
     @Autowired
     private BirdService birdService;
 
-//    @PostMapping("/bird")
-//    public ResponseEntity<Bird> addBird(@RequestBody Bird bird)
-//
+
+    // http://localhost:8080/bird
+    @PostMapping("/bird")
+    public ResponseEntity<Bird> addBird(@RequestBody Bird bird) {
+        Bird birdCreated = birdService.addNewBird(bird);
+        return new ResponseEntity<>(bird, HttpStatus.CREATED);
+    }
+
 
 
 }
