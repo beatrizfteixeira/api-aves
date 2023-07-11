@@ -1,9 +1,21 @@
 package com.grupo4.APIAvesdoBrasil.entity;
 
 
-import jakarta.persistence.Entity;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Entity
+@Table(name= "birds")
 public class Bird {
+    @Id
+    @GeneratedValue(
+            strategy = GenerationType.AUTO
+    )
     private int id;
     private String commonName;
     private String scientificName;
