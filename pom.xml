@@ -15,6 +15,13 @@
 	<description>API de Banco de dados de Aves Brasileiras</description>
 	<properties>
 		<java.version>17</java.version>
+		<assertj.version>3.11.1</assertj.version>
+		<json-path.version>2.4.0</json-path.version>
+		<mockito.version>2.23.4</mockito.version>
+		<hamcrest.version>1.3</hamcrest.version>
+		<junit-jupiter.version>5.3.2</junit-jupiter.version>
+
+
 	</properties>
 	<dependencies>
 		<dependency>
@@ -42,6 +49,7 @@
 			<artifactId>mysql-connector-j</artifactId>
 			<scope>runtime</scope>
 		</dependency>
+
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>

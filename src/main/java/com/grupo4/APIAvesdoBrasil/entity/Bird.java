@@ -2,12 +2,32 @@ package com.grupo4.APIAvesdoBrasil.entity;
 
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import org.springframework.stereotype.Component;
 
+@Component
 public class Bird {
+
+    @Id
     private int id;
+
     private String commonName;
     private String scientificName;
     private String description;
+
+    @Override
+    public String toString() {
+        return "Bird{" +
+                "id=" + id +
+                ", commonName='" + commonName + '\'' +
+                ", scientificName='" + scientificName + '\'' +
+                ", description='" + description + '\'' +
+                '}';
+    }
+
+    public Bird() {
+
+    }
 
     public void setId(int id) {
         this.id = id;
