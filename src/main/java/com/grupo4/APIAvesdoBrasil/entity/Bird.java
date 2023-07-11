@@ -1,18 +1,22 @@
 package com.grupo4.APIAvesdoBrasil.entity;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import org.springframework.stereotype.Component;
 
-@Component
+@Entity
+@Table(name="birds")
 public class Bird {
 
     @Id
+    @GeneratedValue (strategy = GenerationType.IDENTITY)
+    @Column(name="id")
     private int id;
-
+    @Column(name="commonName")
     private String commonName;
+    @Column(name="scientificName")
     private String scientificName;
+    @Column(name="desccription")
     private String description;
 
     @Override
@@ -27,6 +31,19 @@ public class Bird {
 
     public Bird() {
 
+    }
+
+    public Bird(int id, String commonName, String scientificName, String description) {
+        this.id = id;
+        this.commonName = commonName;
+        this.scientificName = scientificName;
+        this.description = description;
+    }
+
+    public Bird(String commonName, String scientificName, String description) {
+        this.commonName = commonName;
+        this.scientificName = scientificName;
+        this.description = description;
     }
 
     public void setId(int id) {
