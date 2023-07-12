@@ -1,26 +1,73 @@
 package com.grupo4.APIAvesdoBrasil.controller;
 
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.grupo4.APIAvesdoBrasil.entity.Bird;
+import com.grupo4.APIAvesdoBrasil.service.BirdService;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
-@RestController
+import java.util.List;
+
+@Controller
 @RequestMapping("/birds")
 public class BirdsController {
 
-    @GetMapping
-    public void SaveBird(){
+    private BirdService birdService;
+
+    public BirdsController(BirdService theBirdService){
+
+        birdService = theBirdService;
 
     }
 
+    @GetMapping("/list")
+    public String listBirds(Model model){
 
-    // insert a new bird to db
-//    @PostMapping("/bird")
-//    public List<Bird> addBird() {
-//
-//    }
+        List<Bird> birdsList = birdService.findAll();
+        model.addAttribute("birds",birdsList);
 
+        return "birds/birds-list";
+    }
+
+    @GetMapping("/showFormSave")
+    public String showFormSave(Model model){
+
+        Bird bird = new Bird();
+        model.addAttribute("bird", bird);
+
+        return "birds/bird-save-form";
+    }
+
+    @PostMapping("/save")
+    public String saveBird(@ModelAttribute("bird") Bird bird){
+
+        birdService.save(bird);
+
+        return "redirect:/birds/birds-list";
+    }
+
+    @PutMapping("/update")
+    public String updateBird(@ModelAttribute("bird") Bird bird) {
+        birdService.save(bird);
+
+        return "redirect:/birds/birds-list";
+    }
+
+    @GetMapping("/showFormUpdate")
+    public String showFormUpdate(@RequestParam("birdId") int id, Model model){
+
+        Bird bird = birdService.findById(id);
+        model.addAttribute("bird", bird);
+
+        return "birds/bird-update-form";
+    }
+
+    @GetMapping("/delete")
+    public String deleteBird(@RequestParam("birdId")int id){
+        birdService.deleteById(id);
+        return "redirect:/birds/birds-list";
+    }
 
 
 }

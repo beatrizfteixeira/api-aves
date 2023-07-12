@@ -1,0 +1,43 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+
+  <title>Update an existing Bird</title>
+</head>
+
+<body>
+<div class = "container">
+
+  <h3>Bird Directory</h3>
+  <hr>
+  <p class="h4 mb-4">Update Bird</p>
+  <form
+          action  ="#"th:action="@{/birds/showFormUpdate}"
+          th:object="${bird}" method="PUT">
+
+    <!-- Add hidden filed Id-->
+    <input type="hidden" th:field="*{id}">
+
+    <input  type="text" th:field="*{CommonName}"
+            class="form-control mb-4 w-25" placeholder ="Common Name">
+
+    <input  type="text" th:field="*{scientificName}"
+            class="form-control mb-4 w-25" placeholder ="Scientific name">
+
+    <input  type="textarea" th:field="*{description}"
+            class="form-control mb-25 w-25" placeholder ="max length 180 " maxlength="180">
+
+    <button type="submit" class="btn btn-info col-2">Save</button>
+  </form>
+  <hr>
+  <a th:href="@{/employees/list}">Back to Birds List</a>
+</div>
+</body>
+</html>
