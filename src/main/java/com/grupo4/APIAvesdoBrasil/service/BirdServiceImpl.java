@@ -18,7 +18,9 @@ public class BirdServiceImpl implements BirdService{
     }
     @Override
     public List<Bird> findAll() {
-        return null;
+
+
+        return birdsRepository.findAll();
     }
 
     @Override

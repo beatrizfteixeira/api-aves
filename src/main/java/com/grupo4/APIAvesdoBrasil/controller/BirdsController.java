@@ -44,14 +44,14 @@ public class BirdsController {
 
         birdService.save(bird);
 
-        return "redirect:/birds/birds-list";
+        return "redirect:/birds/list";
     }
 
-    @PutMapping("/update")
+    @GetMapping("/update")
     public String updateBird(@ModelAttribute("bird") Bird bird) {
         birdService.save(bird);
 
-        return "redirect:/birds/birds-list";
+        return "redirect:/birds/list";
     }
 
     @GetMapping("/showFormUpdate")
@@ -66,7 +66,7 @@ public class BirdsController {
     @GetMapping("/delete")
     public String deleteBird(@RequestParam("birdId")int id){
         birdService.deleteById(id);
-        return "redirect:/birds/birds-list";
+        return "redirect:/birds/list";
     }
 
 

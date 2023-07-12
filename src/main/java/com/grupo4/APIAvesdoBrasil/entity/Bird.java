@@ -16,7 +16,7 @@ public class Bird {
     private String commonName;
     @Column(name="scientificName")
     private String scientificName;
-    @Column(name="desccription")
+    @Column(name="description")
     private String description;
 
     @Override

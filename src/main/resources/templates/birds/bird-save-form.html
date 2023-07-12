@@ -18,7 +18,7 @@
   <hr>
   <p class="h4 mb-4">Save Bird</p>
   <form
-          action  ="#" th:action="@{/birds/showFormsave}"
+          action  ="#" th:action="@{/birds/save}"
           th:object="${bird}" method="POST">
 
     <input type="hidden" th:field="*{id}">
