@@ -9,21 +9,21 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class BirdServiceImpl implements BirdService{
+public class BirdServiceImpl extends BirdService {
 
     private BirdsRepository birdsRepository;
     @Autowired
     public BirdServiceImpl(BirdsRepository theBirdsRepository){
         birdsRepository = theBirdsRepository;
     }
-    @Override
+
     public List<Bird> findAll() {
 
 
         return birdsRepository.findAll();
     }
 
-    @Override
+
     public Bird findById(int id) {
         Optional<Bird> result = birdsRepository.findById(id);
         Bird bird = null;
@@ -37,13 +37,13 @@ public class BirdServiceImpl implements BirdService{
         return bird;
     }
 
-    @Override
+
     public void save(Bird bird) {
         birdsRepository.save(bird);
 
     }
 
-    @Override
+
     public void deleteById(int id) {
         birdsRepository.deleteById(id);
     }
