@@ -19,25 +19,25 @@
   <hr>
   <p class="h4 mb-4">Update Bird</p>
   <form
-          action  ="#"th:action="@{/birds/update}"
+          action  ="#"th:action="@{/birds/showFormUpdate}"
           th:object="${bird}" method="PUT">
 
     <!-- Add hidden filed Id-->
     <input type="hidden" th:field="*{id}">
 
-    <input  type="text" th:field="*{commonName}"
+    <input  type="text" th:field="*{CommonName}"
             class="form-control mb-4 w-25" placeholder ="Common Name">
 
     <input  type="text" th:field="*{scientificName}"
             class="form-control mb-4 w-25" placeholder ="Scientific name">
 
-    <input  type="text" th:field="*{description}"
-            class="form-control mb-4 w-25" placeholder ="Description">
+    <input  type="textarea" th:field="*{description}"
+            class="form-control mb-25 w-25" placeholder ="max length 180 " maxlength="180">
 
     <button type="submit" class="btn btn-info col-2">Save</button>
   </form>
   <hr>
-  <a th:href="@{/birds/list}">Back to Birds List</a>
+  <a th:href="@{/employees/list}">Back to Birds List</a>
 </div>
 </body>
 </html>
