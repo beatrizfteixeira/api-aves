@@ -16,7 +16,7 @@ public class Bird {
     @GeneratedValue(
             strategy = GenerationType.AUTO
     )
-    private int id;
+    private Integer id;
     private String commonName;
     private String scientificName;
     private String description;
