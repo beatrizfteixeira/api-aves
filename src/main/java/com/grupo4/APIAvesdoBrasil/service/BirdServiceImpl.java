@@ -44,7 +44,8 @@ public class BirdServiceImpl extends BirdService {
     }
 
 
-    public void deleteById(int id) {
+    public Bird deleteById(int id) {
         birdsRepository.deleteById(id);
+        return null;
     }
 }

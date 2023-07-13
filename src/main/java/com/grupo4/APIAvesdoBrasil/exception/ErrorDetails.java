@@ -2,7 +2,7 @@ package com.grupo4.APIAvesdoBrasil.exception;
 
 import java.util.Date;
 
-public class ErrorDetails {
+public class ErrorDetails{
 
     private Date timestamp;
     private String message;
