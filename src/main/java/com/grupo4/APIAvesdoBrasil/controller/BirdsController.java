@@ -40,6 +40,23 @@ public class BirdsController {
         return ResponseEntity.ok(bird);
     }
 
+    // UPDATE a bird by ID from db http://localhost:8080/api/bird/{id}/update
+    @PutMapping("/bird/{id}/update")
+    public ResponseEntity<Bird> updateBirdbyId(@PathVariable("id") Integer id, @RequestBody Bird bird){
+        Bird birdFound = birdService.getBirdById(id);
+
+        if (bird.getCommonName() != null) {
+            birdService.updateCommonName(bird.getCommonName(), id);
+        }
+        if (bird.getScientificName() != null) {
+            birdService.updateScientificName(bird.getScientificName(), id);
+        }
+        if (bird.getDescription() != null) {
+            birdService.updateDescription(bird.getDescription(), id);
+        }
+        return ResponseEntity.ok(birdService.getBirdById(id));
+    }
+
     // DELETE a bird by ID from db http://localhost:8080/api/bird/{id}
     @DeleteMapping("/bird/{id}")
     public ResponseEntity<String> deleteBirdById(@PathVariable("id") Integer id) {
