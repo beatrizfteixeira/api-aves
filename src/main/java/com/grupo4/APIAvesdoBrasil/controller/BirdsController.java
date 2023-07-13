@@ -27,7 +27,8 @@ public class BirdsController {
         return new ResponseEntity<>(bird, HttpStatus.CREATED);
     }
     // GET all birds from db http://localhost:8080/api/bird
-    @GetMapping("/bird")
+    //changed endpoint /bird to /birds as springboot conventions
+    @GetMapping("/birds")
     public ResponseEntity<List<Bird>> getBirds() {
         List<Bird> birdsList = birdService.getAllBirds();
         return ResponseEntity.ok(birdsList);

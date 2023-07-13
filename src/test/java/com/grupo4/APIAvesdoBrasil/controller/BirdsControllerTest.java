@@ -39,6 +39,5 @@ class BirdsControllerTest {
         List<Bird> birdsList = Arrays.asList(bird1, bird2);
         when(birdService.getAllBirds()).thenReturn(birdsList);
 
-
     }
 }
