@@ -2,17 +2,12 @@ package com.grupo4.APIAvesdoBrasil.controller;
 
 
 import com.grupo4.APIAvesdoBrasil.entity.Bird;
-import com.grupo4.APIAvesdoBrasil.exception.ErrorDetails;
-import com.grupo4.APIAvesdoBrasil.exception.ResourceNotFoundException;
 import com.grupo4.APIAvesdoBrasil.service.BirdService;
-import com.grupo4.APIAvesdoBrasil.service.BirdServiceImpl;
-import com.grupo4.APIAvesdoBrasil.service.exceptions.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.Instant;
 import java.util.List;
 
 @RestController

@@ -3,10 +3,8 @@ package com.grupo4.APIAvesdoBrasil.service;
 import com.grupo4.APIAvesdoBrasil.entity.Bird;
 import com.grupo4.APIAvesdoBrasil.exception.ResourceNotFoundException;
 import com.grupo4.APIAvesdoBrasil.repository.BirdsRepository;
-import com.grupo4.APIAvesdoBrasil.service.exceptions.EntityInvalidException;
-import com.grupo4.APIAvesdoBrasil.service.exceptions.EntityNotFoundException;
+import com.grupo4.APIAvesdoBrasil.exception.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,11 +15,15 @@ public class BirdServiceImpl implements BirdService {
 
 @Autowired
  private BirdsRepository birdsRepository;
+
+    public BirdServiceImpl(BirdsRepository repository) {
+    }
+
     @Override
     public List<Bird> findAll() {
         List<Bird> birds = birdsRepository.findAll();
         if (birds.isEmpty()){
-            throw new ResourceNotFoundException("No Birds here");
+            throw new EntityNotFoundException("No Birds here");
 
         }
             return birds;
@@ -43,7 +45,7 @@ public class BirdServiceImpl implements BirdService {
     public Bird findById(int id) {
 
         return birdsRepository.findById(id).orElseThrow(
-                () -> new EntityNotFoundException("Id not found " + id));
+                () -> new EntityNotFoundException("Id "+id +" not found " ));
     }
 
     @Override
