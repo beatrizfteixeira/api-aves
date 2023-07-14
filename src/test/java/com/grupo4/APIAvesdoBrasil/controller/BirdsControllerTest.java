@@ -1,24 +1,26 @@
 package com.grupo4.APIAvesdoBrasil.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.grupo4.APIAvesdoBrasil.entity.Bird;
-import com.grupo4.APIAvesdoBrasil.repository.BirdsRepository;
+
 import com.grupo4.APIAvesdoBrasil.service.BirdService2;
-import com.grupo4.APIAvesdoBrasil.service.BirdServiceImpl;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
+
 
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -38,6 +40,7 @@ class BirdsControllerTest {
         MockitoAnnotations.initMocks(this);
         mockMvc = MockMvcBuilders.standaloneSetup(birdsController).build();
 
+
     }
 
 
@@ -48,13 +51,47 @@ class BirdsControllerTest {
         List<Bird> birdsList = Arrays.asList(bird1, bird2);
         when( birdService.findAll()).thenReturn(birdsList);
 
-    }
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/bird")
+                        .contentType(MediaType.APPLICATION_JSON))
+                        .andExpect(MockMvcResultMatchers.status().isOk())
+                        .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
+                        .andExpect(MockMvcResultMatchers.jsonPath("$[0].id").value(1))
+                        .andExpect(MockMvcResultMatchers.jsonPath("$[0].commonName").value("pardal"))
+                        .andExpect(MockMvcResultMatchers.jsonPath("$[0].scientificName").value("Passer domesticus"))
+                        .andExpect(MockMvcResultMatchers.jsonPath("$[0].description").value("Common found Bird"))
+                        .andExpect(MockMvcResultMatchers.jsonPath("$[1].id").value(2))
+                        .andExpect(MockMvcResultMatchers.jsonPath("$[1].scientificName").value("Anas platyrhynchos"))
+                        .andExpect(MockMvcResultMatchers.jsonPath("$[1].description").value("Common livestock bird"));
 
+
+    }
+    private String asJsonString(Object obj) {
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            return objectMapper.writeValueAsString(obj);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     @Test
     void testSaveBird() throws Exception {
         Bird bird1 = new Bird(1, "pardal", "Passer domesticus", "Common found Bird");
-    when(birdService.save(bird1)).thenReturn(bird1);
+        when(birdService.save(bird1)).thenReturn(bird1);
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/bird")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(asJsonString(bird1)))
+                .andExpect(MockMvcResultMatchers.status().isCreated())
+                .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(1))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.commonName").value("pardal"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.scientificName").value("Passer domesticus"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.description").value("Common found Bird"));
+
+
+        Mockito.verify(birdService, Mockito.times(1)).save(bird1);
+
     }
 
     @Test
