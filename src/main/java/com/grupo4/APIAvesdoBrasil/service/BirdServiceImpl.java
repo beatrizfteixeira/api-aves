@@ -1,51 +1,48 @@
 package com.grupo4.APIAvesdoBrasil.service;
 
 import com.grupo4.APIAvesdoBrasil.entity.Bird;
+import com.grupo4.APIAvesdoBrasil.exception.GlobalExceptionHandler;
+import com.grupo4.APIAvesdoBrasil.exception.ResourceNotFoundException;
 import com.grupo4.APIAvesdoBrasil.repository.BirdsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
-public class BirdServiceImpl extends BirdService {
+public class BirdServiceImpl implements BirdService2 {
 
-    private BirdsRepository birdsRepository;
-    @Autowired
-    public BirdServiceImpl(BirdsRepository theBirdsRepository){
-        birdsRepository = theBirdsRepository;
-    }
-
+@Autowired
+ private BirdsRepository birdsRepository;
+    @Override
     public List<Bird> findAll() {
+        List<Bird> birds = birdsRepository.findAll();
+        if (birds.isEmpty()){
+            throw new ResourceNotFoundException("No Birds here");
 
-
-        return birdsRepository.findAll();
-    }
-
-
-    public Bird findById(int id) {
-        Optional<Bird> result = birdsRepository.findById(id);
-        Bird bird = null;
-
-        if (result.isPresent()){
-            bird = result.get();
-        } else {
-            throw new RuntimeException("Did not find the bird you are looking for - "+id);
+        }
+            return birds;
         }
 
-        return bird;
+
+    @Override
+    public Bird findById(int id) {
+        Optional<Bird> birdRetrieved = birdsRepository.findById((id));
+        if (birdRetrieved == null) {
+            new ResourceNotFoundException("No Bird Found");
+        }
+        return birdRetrieved.get();
+    }
+    @Override
+    public Bird save(Bird bird) {
+
+        return birdsRepository.save(bird);
     }
 
-
-    public void save(Bird bird) {
-        birdsRepository.save(bird);
-
-    }
-
-
+    @Override
     public Bird deleteById(int id) {
-        birdsRepository.deleteById(id);
         return null;
     }
 }
