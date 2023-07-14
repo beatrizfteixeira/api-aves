@@ -8,14 +8,13 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 class BirdServiceTest {
     private MockMvc mockMvc;
 
     @Mock
-    private BirdService2 birdService;
+    private BirdService birdService;
 
     @Test
     void getBirdById() {

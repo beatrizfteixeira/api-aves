@@ -2,19 +2,24 @@ package com.grupo4.APIAvesdoBrasil.controller;
 
 
 import com.grupo4.APIAvesdoBrasil.entity.Bird;
-import com.grupo4.APIAvesdoBrasil.service.BirdService2;
+import com.grupo4.APIAvesdoBrasil.exception.ErrorDetails;
+import com.grupo4.APIAvesdoBrasil.exception.ResourceNotFoundException;
+import com.grupo4.APIAvesdoBrasil.service.BirdService;
+import com.grupo4.APIAvesdoBrasil.service.BirdServiceImpl;
+import com.grupo4.APIAvesdoBrasil.service.exceptions.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.Instant;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api")
 public class BirdsController {
     @Autowired
-    private BirdService2 birdService;
+    private BirdService birdService;
 
     // POST
     // Insert a new bird to db http://localhost:8080/api/bird
@@ -32,11 +37,22 @@ public class BirdsController {
     }
     // GET
     // Get a bird by ID from db http://localhost:8080/api/bird/{id}
+//    @GetMapping("/bird/{id}")
+//    public ResponseEntity<Bird> getBirdById(@PathVariable("id") Integer id) {
+//        Bird bird = birdService.findById(id);
+//        return ResponseEntity.ok(bird);
+//    }
     @GetMapping("/bird/{id}")
     public ResponseEntity<Bird> getBirdById(@PathVariable("id") Integer id) {
         Bird bird = birdService.findById(id);
-        return ResponseEntity.ok(bird);
-    }
+        return ResponseEntity.ok().body(bird);
+      }
+
+      @GetMapping("/bird/name/{commonName}")
+      public ResponseEntity<Bird> getBirdByName(@PathVariable("commonName") String commonName) {
+          Bird bird = birdService.findByName(commonName);
+          return ResponseEntity.ok().body(bird);
+      }
 
     // DELETE a bird by ID from db http://localhost:8080/api/bird/{id}
     @DeleteMapping("/bird/{id}")
@@ -47,5 +63,21 @@ public class BirdsController {
         }
         return ResponseEntity.ok("ERROR");
     }
+
+    @PutMapping("/bird/{id}/update")
+        public ResponseEntity<Bird> updateBirdbyId(@PathVariable("id") Integer id, @RequestBody Bird bird){
+            Bird birdFound = birdService.findById(id);
+
+            if (bird.getCommonName() != null) {
+                birdService.updateCommonName(bird.getCommonName(), id);
+            }
+            if (bird.getScientificName() != null) {
+                birdService.updateScientificName(bird.getScientificName(), id);
+            }
+            if (bird.getDescription() != null) {
+                birdService.updateDescription(bird.getDescription(), id);
+            }
+            return ResponseEntity.ok(birdService.findById(id));
+        }
 
 }

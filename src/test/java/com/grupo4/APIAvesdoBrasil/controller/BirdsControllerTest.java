@@ -3,7 +3,7 @@ package com.grupo4.APIAvesdoBrasil.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.grupo4.APIAvesdoBrasil.entity.Bird;
 
-import com.grupo4.APIAvesdoBrasil.service.BirdService2;
+import com.grupo4.APIAvesdoBrasil.service.BirdService;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -30,7 +30,7 @@ class BirdsControllerTest {
     private MockMvc mockMvc;
 
     @Mock
-    private BirdService2 birdService;
+    private BirdService birdService;
 
     @InjectMocks
     private BirdsController birdsController;
