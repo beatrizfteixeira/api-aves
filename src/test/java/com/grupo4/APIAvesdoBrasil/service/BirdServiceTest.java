@@ -15,7 +15,8 @@ class BirdServiceTest {
     private MockMvc mockMvc;
 
     @Mock
-    private BirdService birdService;
+    private BirdService2 birdService;
+
     @Test
     void getBirdById() {
         Bird bird1 = new Bird(1, "pardal", "Passer domesticus", "Common found Bird");
@@ -24,8 +25,5 @@ class BirdServiceTest {
 
         when(birdsList.get(1)).thenReturn(bird1);
 
-    }
-
-    private void assertArrayEquals(int i, int i2) {
     }
 }

@@ -17,7 +17,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorDetails> handleResourceNotFoundException(ResourceNotFoundException exception, WebRequest webRequest){
 
         ErrorDetails errorDetails = new ErrorDetails(new Date(),
-                "Bad Request 1",
+                "No Birds Found Here",
                 webRequest.getDescription(false));
         return new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);
     }
