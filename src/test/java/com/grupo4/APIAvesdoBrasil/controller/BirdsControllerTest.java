@@ -62,7 +62,7 @@ class BirdsControllerTest {
                         .andExpect(MockMvcResultMatchers.jsonPath("$[1].id").value(2))
                         .andExpect(MockMvcResultMatchers.jsonPath("$[1].scientificName").value("Anas platyrhynchos"))
                         .andExpect(MockMvcResultMatchers.jsonPath("$[1].description").value("Common livestock bird"));
-
+        Mockito.verify(birdService).findAll();
 
     }
     private String asJsonString(Object obj) {

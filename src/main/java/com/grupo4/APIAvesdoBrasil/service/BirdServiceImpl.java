@@ -17,6 +17,7 @@ public class BirdServiceImpl implements BirdService {
  private BirdsRepository birdsRepository;
 
     public BirdServiceImpl(BirdsRepository repository) {
+        this.birdsRepository = repository;
     }
 
     @Override
@@ -44,8 +45,10 @@ public class BirdServiceImpl implements BirdService {
     @Override
     public Bird findById(int id) {
 
-        return birdsRepository.findById(id).orElseThrow(
-                () -> new EntityNotFoundException("Id "+id +" not found " ));
+        return birdsRepository.getReferenceById(id);
+
+//        return birdsRepository.findById(id).orElseThrow(
+//                () -> new EntityNotFoundException("Id "+id +" not found " ));
     }
 
     @Override
