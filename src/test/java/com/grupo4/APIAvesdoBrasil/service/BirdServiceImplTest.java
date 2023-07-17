@@ -1,6 +1,8 @@
 package com.grupo4.APIAvesdoBrasil.service;
 
 import com.grupo4.APIAvesdoBrasil.entity.Bird;
+import com.grupo4.APIAvesdoBrasil.exception.BirdDeleteIdInvalidException;
+import com.grupo4.APIAvesdoBrasil.exception.BirdSaveException;
 import com.grupo4.APIAvesdoBrasil.exception.EntityNotFoundException;
 import com.grupo4.APIAvesdoBrasil.repository.BirdsRepository;
 import com.grupo4.APIAvesdoBrasil.service.BirdServiceImpl;
@@ -16,14 +18,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
