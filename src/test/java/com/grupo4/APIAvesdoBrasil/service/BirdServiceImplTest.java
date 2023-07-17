@@ -52,7 +52,7 @@ class BirdServiceImplTest {
 //
 //        List<Bird> birdsList = Arrays.asList(bird1,bird2);
 //
-//        BirdsRepository repository = Mockito.mock(BirdsRepository.class);
+        BirdsRepository repository = Mockito.mock(BirdsRepository.class);
 //
 //        when(repository.findAll()).thenReturn(birdsList);
 //

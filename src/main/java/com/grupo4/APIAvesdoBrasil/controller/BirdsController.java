@@ -20,8 +20,9 @@ public class BirdsController {
     // Insert a new bird to db http://localhost:8080/api/bird
     @PostMapping("/bird")
     public ResponseEntity<Bird> saveBird(@RequestBody Bird bird) {
-        Bird birdCreated = birdService.save(bird);
+        birdService.save(bird);
         return new ResponseEntity<>(bird, HttpStatus.CREATED);
+
     }
     // GET all birds from db http://localhost:8080/api/bird
     //changed endpoint /bird to /birds as springboot conventions
@@ -30,7 +31,7 @@ public class BirdsController {
         List<Bird> birdsList = birdService.findAll();
         return ResponseEntity.ok(birdsList);
     }
-    // GET
+
     // Get a bird by ID from db http://localhost:8080/api/bird/{id}
 //    @GetMapping("/bird/{id}")
 //    public ResponseEntity<Bird> getBirdById(@PathVariable("id") Integer id) {
