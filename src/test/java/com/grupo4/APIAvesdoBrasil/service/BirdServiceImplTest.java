@@ -2,29 +2,23 @@ package com.grupo4.APIAvesdoBrasil.service;
 
 import com.grupo4.APIAvesdoBrasil.entity.Bird;
 import com.grupo4.APIAvesdoBrasil.exception.BirdDeleteIdInvalidException;
+import com.grupo4.APIAvesdoBrasil.exception.BirdDeleteNotFoundException;
 import com.grupo4.APIAvesdoBrasil.exception.BirdSaveException;
-import com.grupo4.APIAvesdoBrasil.exception.EntityNotFoundException;
 import com.grupo4.APIAvesdoBrasil.repository.BirdsRepository;
-import com.grupo4.APIAvesdoBrasil.service.BirdServiceImpl;
-import org.junit.jupiter.api.Assertions;
+import com.grupo4.APIAvesdoBrasil.exception.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.web.servlet.MockMvc;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-@ExtendWith(MockitoExtension.class)
 class BirdServiceImplTest {
 
     @Mock
@@ -33,14 +27,22 @@ class BirdServiceImplTest {
     @InjectMocks
     BirdServiceImpl birdService;
 
-
+    @BeforeEach
+    void setUp() {
+        MockitoAnnotations.openMocks(this);
+    }
 
     @Test
-    void save() {
-        Bird bird1 = new Bird(1, "Pardal", "Passer domesticus", "Common found Bird");
-        birdService.save(bird1);
-        verify(birdsRepository).save(bird1);
+    void testFindAll() {
+        List<Bird> mockBirds = new ArrayList<>();
+        mockBirds.add(new Bird(1, "Pardal", "Passer domesticus", "Common found Bird"));
+        mockBirds.add(new Bird(2, "Pato", "Anas platyrhynchos", "Common livestock bird"));
 
+        when(birdsRepository.findAll()).thenReturn(mockBirds);
+
+        List<Bird> result = birdService.findAll();
+
+        assertEquals(2, result.size());
     }
 
     @Test
@@ -82,7 +84,7 @@ class BirdServiceImplTest {
 
         when(birdsRepository.findAll()).thenReturn(new ArrayList<>());
 
-        assertThrows(EntityNotFoundException.class, () -> birdService.findByName(commonName));
+        assertThrows(BirdNotFoundException.class, () -> birdService.findByName(commonName));
     }
 
     @Test
@@ -125,8 +127,112 @@ class BirdServiceImplTest {
 
         assertThrows(BirdDeleteIdInvalidException.class, () -> birdService.deleteById(invalidId));
     }
-}
 
-//        Mockito.when(birdsRepository.findById(1).thenReturn();
-//        ResourceNotFoundException exception = assertThrows(ResourceNotFoundException.class,() -> birdService.save(bird1));
-//        assertTrue(exception.getMessage().contains("Pardal Cadastrado"));
+    @Test
+    public void testUpdateCommonNameSuccess() {
+        int birdId = 1;
+        String commonName = "Updated Common Name";
+
+        // Mock the behavior of birdsRepository.findById()
+        Bird existingBird = new Bird();
+        existingBird.setId(birdId);
+        when(birdsRepository.findById(birdId)).thenReturn(Optional.of(existingBird));
+
+        // Mock the behavior of birdsRepository.save()
+        when(birdsRepository.save(existingBird)).thenReturn(existingBird);
+
+        Bird updatedBird = birdService.updateCommonName(commonName, birdId);
+
+        Assertions.assertEquals(commonName, updatedBird.getCommonName());
+        verify(birdsRepository, times(1)).findById(birdId);
+        verify(birdsRepository, times(1)).save(existingBird);
+    }
+
+    @Test
+    public void testUpdateCommonNameBirdNotFound() {
+        int birdId = 1;
+        String commonName = "Updated Common Name";
+
+        // Mock the behavior of birdsRepository.findById() when bird is not found
+        when(birdsRepository.findById(birdId)).thenReturn(Optional.empty());
+
+        // The method should throw BirdUpdateException when the bird is not found
+        Assertions.assertThrows(BirdNotFoundException.class,
+                () -> birdService.updateCommonName(commonName, birdId));
+
+        verify(birdsRepository, times(1)).findById(birdId);
+        verify(birdsRepository, never()).save(any());
+    }
+
+    @Test
+    public void testUpdateScientificNameSuccess() {
+        int birdId = 1;
+        String scientificName = "Updated Scientific Name";
+
+        // Mock the behavior of birdsRepository.findById()
+        Bird existingBird = new Bird();
+        existingBird.setId(birdId);
+        when(birdsRepository.findById(birdId)).thenReturn(Optional.of(existingBird));
+
+        // Mock the behavior of birdsRepository.save()
+        when(birdsRepository.save(existingBird)).thenReturn(existingBird);
+
+        Bird updatedBird = birdService.updateScientificName(scientificName, birdId);
+
+        Assertions.assertEquals(scientificName, updatedBird.getScientificName());
+        verify(birdsRepository, times(1)).findById(birdId);
+        verify(birdsRepository, times(1)).save(existingBird);
+    }
+
+    @Test
+    public void testUpdateScientificNameBirdNotFound() {
+        int birdId = 1;
+        String scientificName = "Updated Scientific Name";
+
+        // Mock the behavior of birdsRepository.findById() when bird is not found
+        when(birdsRepository.findById(birdId)).thenReturn(Optional.empty());
+
+        // The method should throw BirdUpdateException when the bird is not found
+        Assertions.assertThrows(BirdNotFoundException.class,
+                () -> birdService.updateScientificName(scientificName, birdId));
+
+        verify(birdsRepository, times(1)).findById(birdId);
+        verify(birdsRepository, never()).save(any());
+    }
+
+    @Test
+    public void testUpdateDescriptionSuccess() {
+        int birdId = 1;
+        String description = "Updated Description";
+
+        // Mock the behavior of birdsRepository.findById()
+        Bird existingBird = new Bird();
+        existingBird.setId(birdId);
+        when(birdsRepository.findById(birdId)).thenReturn(Optional.of(existingBird));
+
+        // Mock the behavior of birdsRepository.save()
+        when(birdsRepository.save(existingBird)).thenReturn(existingBird);
+
+        Bird updatedBird = birdService.updateDescription(description, birdId);
+
+        Assertions.assertEquals(description, updatedBird.getDescription());
+        verify(birdsRepository, times(1)).findById(birdId);
+        verify(birdsRepository, times(1)).save(existingBird);
+    }
+
+    @Test
+    public void testUpdateDescriptionBirdNotFound() {
+        int birdId = 1;
+        String description = "Updated Description";
+
+        // Mock the behavior of birdsRepository.findById() when bird is not found
+        when(birdsRepository.findById(birdId)).thenReturn(Optional.empty());
+
+        // The method should throw BirdUpdateException when the bird is not found
+        Assertions.assertThrows(BirdNotFoundException.class,
+                () -> birdService.updateDescription(description, birdId));
+
+        verify(birdsRepository, times(1)).findById(birdId);
+        verify(birdsRepository, never()).save(any());
+    }
+}

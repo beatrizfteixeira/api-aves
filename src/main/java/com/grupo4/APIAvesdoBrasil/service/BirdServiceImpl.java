@@ -1,11 +1,8 @@
 package com.grupo4.APIAvesdoBrasil.service;
 
 import com.grupo4.APIAvesdoBrasil.entity.Bird;
-import com.grupo4.APIAvesdoBrasil.exception.BirdDeleteIdInvalidException;
-import com.grupo4.APIAvesdoBrasil.exception.BirdDeleteNotFoundException;
-import com.grupo4.APIAvesdoBrasil.exception.BirdSaveException;
+import com.grupo4.APIAvesdoBrasil.exception.*;
 import com.grupo4.APIAvesdoBrasil.repository.BirdsRepository;
-import com.grupo4.APIAvesdoBrasil.exception.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,7 +23,7 @@ public class BirdServiceImpl implements BirdService {
     public List<Bird> findAll() {
         List<Bird> birds = birdsRepository.findAll();
         if (birds.isEmpty()){
-            throw new EntityNotFoundException("No Birds here");
+            throw new BirdNotFoundException("No Birds here");
         }
             return birds;
         }
@@ -34,10 +31,10 @@ public class BirdServiceImpl implements BirdService {
     @Override
     public Bird findById(int id) {
 
-        return birdsRepository.getReferenceById(id);
+//        return birdsRepository.getReferenceById(id);
 
-//        return birdsRepository.findById(id).orElseThrow(
-//                () -> new EntityNotFoundException("Id "+id +" not found " ));
+        return birdsRepository.findById(id).orElseThrow(
+                () -> new BirdNotFoundException("Id "+id +" not found " ));
     }
 
     @Override
@@ -48,7 +45,7 @@ public class BirdServiceImpl implements BirdService {
                 .filter(bird -> bird.getCommonName().equals(commonName))
                 .findFirst();
 
-        return birdOptional.orElseThrow(() -> new EntityNotFoundException("Bird not found with name: " + commonName));
+        return birdOptional.orElseThrow(() -> new BirdNotFoundException("Bird not found with name: " + commonName));
     }
 
     @Override
@@ -86,37 +83,34 @@ public class BirdServiceImpl implements BirdService {
     // UPDATE COMMON NAME, DESCRIPTION, SCIENTIFIC NAME BY ID
     @Override
     public Bird updateCommonName(String commonName, int id) {
-
         Bird birdToBeUpdated = findById(id);
-
         if (birdToBeUpdated != null) {
             birdToBeUpdated.setCommonName(commonName);
             return birdsRepository.save(birdToBeUpdated);
+        } else {
+            throw new BirdUpdateException("Bird with ID " + id + " not found for common name update.");
         }
-        return null;
     }
 
     @Override
     public Bird updateScientificName(String scientificName, int id) {
-
         Bird birdToBeUpdated = findById(id);
-
         if (birdToBeUpdated != null) {
             birdToBeUpdated.setScientificName(scientificName);
             return birdsRepository.save(birdToBeUpdated);
+        } else {
+            throw new BirdUpdateException("Bird with ID " + id + " not found for scientific name update.");
         }
-        return null;
     }
 
     @Override
     public Bird updateDescription(String description, int id) {
-
-        Bird birdToBeUpdated =findById(id);
-
+        Bird birdToBeUpdated = findById(id);
         if (birdToBeUpdated != null) {
             birdToBeUpdated.setDescription(description);
             return birdsRepository.save(birdToBeUpdated);
+        } else {
+            throw new BirdUpdateException("Bird with ID " + id + " not found for description update.");
         }
-        return null;
     }
 }

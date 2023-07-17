@@ -42,8 +42,8 @@ public class GlobalExceptionHandler {
         ErrorDetails errorDetails = new ErrorDetails();
         return new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);
     }
-    @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity<ErrorDetails> handleEntityNotFound(EntityNotFoundException e, HttpServletRequest request) {
+    @ExceptionHandler(BirdNotFoundException.class)
+    public ResponseEntity<ErrorDetails> handleEntityNotFound(BirdNotFoundException e, HttpServletRequest request) {
     ErrorDetails error = new ErrorDetails();
             error.setTimestamp(Instant.now());
             error.setStatus(HttpStatus.NOT_FOUND.value());
@@ -86,6 +86,17 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
     }
 
+    @ExceptionHandler(BirdUpdateException.class)
+    public ResponseEntity<ErrorDetails> handleBirdUpdateNotFound(BirdUpdateException e, HttpServletRequest request) {
+        ErrorDetails error = new ErrorDetails();
+        error.setTimestamp(Instant.now());
+        error.setStatus(HttpStatus.NOT_FOUND.value());
+        error.setError("Bird not found");
+        error.setMessage(e.getMessage());
+        error.setPath(request.getRequestURI());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+    }
+
     @ExceptionHandler(BirdAPIException.class)
     public ResponseEntity<ErrorDetails> handleBidAPIException(BirdAPIException exception, WebRequest webRequest) {
         ErrorDetails errorDetails = new ErrorDetails();
@@ -96,7 +107,6 @@ public class GlobalExceptionHandler {
         ErrorDetails errorDetails = new ErrorDetails();
         return new ResponseEntity<>(errorDetails, HttpStatus.FOUND);
     }
-
 
 }
 
