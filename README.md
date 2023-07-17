@@ -10,7 +10,7 @@ Spring Boot - Accessing data with MySQL :: Learn how to set up and manage user d
 
 > **Note:** Find the mySql connection details in "/src/main/resources/application.properties"
 
-### Create the application.properties file
+### Check application.properties file
 
 >- In the sources folder, you create a resource file src/main/resources/application.properties
 >- SET your password filling this property
