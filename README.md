@@ -6,7 +6,7 @@ Spring Boot - Accessing data with MySQL :: Learn how to set up and manage user d
 
 ### Create a new database
 
->- mysql> create database dbbirds by running file ; -- Create the new database
+>- mysql> Create database dbbirds by running SQL script /src/main/resources/templates/query.sql; -- Create the new database
 
 > **Note:** Find the mySql connection details in "/src/main/resources/application.properties"
 
