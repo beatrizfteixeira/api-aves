@@ -1,7 +1,9 @@
 package com.grupo4.APIAvesdoBrasil.service;
 
 import com.grupo4.APIAvesdoBrasil.entity.Bird;
-import com.grupo4.APIAvesdoBrasil.exception.ResourceNotFoundException;
+import com.grupo4.APIAvesdoBrasil.exception.BirdDeleteIdInvalidException;
+import com.grupo4.APIAvesdoBrasil.exception.BirdDeleteNotFoundException;
+import com.grupo4.APIAvesdoBrasil.exception.BirdSaveException;
 import com.grupo4.APIAvesdoBrasil.repository.BirdsRepository;
 import com.grupo4.APIAvesdoBrasil.exception.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +27,6 @@ public class BirdServiceImpl implements BirdService {
         List<Bird> birds = birdsRepository.findAll();
         if (birds.isEmpty()){
             throw new EntityNotFoundException("No Birds here");
-
         }
             return birds;
         }
@@ -64,18 +65,38 @@ public class BirdServiceImpl implements BirdService {
 
     @Override
     public Bird save(Bird bird) {
-
-        return birdsRepository.save(bird);
+        if (bird.getCommonName() == null || bird.getScientificName() == null){
+            throw new BirdSaveException("Provide a valid information");
+        }
+        try {
+            return birdsRepository.save(bird);
+        } catch (Exception e) {
+            throw new BirdSaveException("Error while saving the bird: " + e.getMessage());
+        }
     }
 
     @Override
     public Bird deleteById(int id) {
-        return null;
+        if (id <= 0) {
+            throw new BirdDeleteIdInvalidException("Invalid bird ID. Bird ID must be greater than 0.");
+        }
+
+        Bird birdToDelete = birdsRepository.findById(id).orElse(null);
+
+        if (birdToDelete == null) {
+            throw new BirdDeleteNotFoundException("Bird with ID " + id + " not found. Deletion failed.");
+        }
+
+        try {
+            birdsRepository.deleteById(id);
+            return null;
+        } catch (Exception e) {
+            throw new BirdDeleteNotFoundException("Error while deleting the bird: " + e.getMessage());
+        }
     }
 
-
     // UPDATE COMMON NAME, DESCRIPTION, SCIENTIFIC NAME BY ID
-
+    @Override
     public Bird updateCommonName(String commonName, int id) {
 
         Bird birdToBeUpdated = findById(id);
@@ -86,6 +107,8 @@ public class BirdServiceImpl implements BirdService {
         }
         return null;
     }
+
+    @Override
     public Bird updateScientificName(String scientificName, int id) {
 
         Bird birdToBeUpdated = findById(id);
@@ -96,6 +119,8 @@ public class BirdServiceImpl implements BirdService {
         }
         return null;
     }
+
+    @Override
     public Bird updateDescription(String description, int id) {
 
         Bird birdToBeUpdated =findById(id);
@@ -106,8 +131,4 @@ public class BirdServiceImpl implements BirdService {
         }
         return null;
     }
-
-
-
-
 }

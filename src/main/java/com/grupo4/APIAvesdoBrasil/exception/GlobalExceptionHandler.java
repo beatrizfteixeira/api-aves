@@ -43,7 +43,7 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);
     }
     @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity<ErrorDetails> entityNotFound(EntityNotFoundException e, HttpServletRequest request) {
+    public ResponseEntity<ErrorDetails> handleEntityNotFound(EntityNotFoundException e, HttpServletRequest request) {
     ErrorDetails error = new ErrorDetails();
             error.setTimestamp(Instant.now());
             error.setStatus(HttpStatus.NOT_FOUND.value());
@@ -51,7 +51,40 @@ public class GlobalExceptionHandler {
             error.setMessage(e.getMessage());
             error.setPath(request.getRequestURI());
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
-}
+    }
+
+    @ExceptionHandler(BirdSaveException.class)
+    public ResponseEntity<ErrorDetails> handleInvalidSave(BirdSaveException e, HttpServletRequest request) {
+        ErrorDetails error = new ErrorDetails();
+        error.setTimestamp(Instant.now());
+        error.setStatus(HttpStatus.BAD_REQUEST.value());
+        error.setError("Invalid information");
+        error.setMessage(e.getMessage());
+        error.setPath(request.getRequestURI());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+    }
+
+    @ExceptionHandler(BirdDeleteNotFoundException.class)
+    public ResponseEntity<ErrorDetails> handleBirdForDeleteNotFound(BirdDeleteNotFoundException e, HttpServletRequest request) {
+        ErrorDetails error = new ErrorDetails();
+        error.setTimestamp(Instant.now());
+        error.setStatus(HttpStatus.NOT_FOUND.value());
+        error.setError("Bird not found");
+        error.setMessage(e.getMessage());
+        error.setPath(request.getRequestURI());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+    }
+
+    @ExceptionHandler(BirdDeleteIdInvalidException.class)
+    public ResponseEntity<ErrorDetails> handleBirdForDeleteInvalidId(BirdDeleteIdInvalidException e, HttpServletRequest request) {
+        ErrorDetails error = new ErrorDetails();
+        error.setTimestamp(Instant.now());
+        error.setStatus(HttpStatus.BAD_REQUEST.value());
+        error.setError("Invalid ID");
+        error.setMessage(e.getMessage());
+        error.setPath(request.getRequestURI());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+    }
 
     @ExceptionHandler(BirdAPIException.class)
     public ResponseEntity<ErrorDetails> handleBidAPIException(BirdAPIException exception, WebRequest webRequest) {
@@ -63,6 +96,8 @@ public class GlobalExceptionHandler {
         ErrorDetails errorDetails = new ErrorDetails();
         return new ResponseEntity<>(errorDetails, HttpStatus.FOUND);
     }
+
+
 }
 
 
