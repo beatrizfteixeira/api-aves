@@ -61,7 +61,7 @@ public class BirdsController {
     // UPDATE a bird by ID from db http://localhost:8080/api/bird/{id}/update
     @PutMapping("/bird/{id}/update")
         public ResponseEntity<Bird> updateBirdbyId(@PathVariable("id") Integer id, @RequestBody Bird bird){
-            Bird birdFound = birdService.findById(id);
+        //    Bird birdFound = birdService.findById(id);
 
             if (bird.getCommonName() != null) {
                 birdService.updateCommonName(bird.getCommonName(), id);
