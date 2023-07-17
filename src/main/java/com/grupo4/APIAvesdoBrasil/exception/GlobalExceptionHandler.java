@@ -26,31 +26,15 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorDetails);
     }
 
-    // handle especific exceptions
-
-    //    @ExceptionHandler(ResourceNotFoundException.class)
-//    public ResponseEntity<ErrorDetails> handleResourceNotFoundException(ResourceNotFoundException exception, WebRequest webRequest){
-//
-//        ErrorDetails errorDetails = new ErrorDetails(new Date(),
-//                "No Birds Found Here",
-//                webRequest.getDescription(false));
-//        return new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);
-//    }
-    @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity<ErrorDetails> handleResourceNotFoundException(ResourceNotFoundException exception, WebRequest webRequest) {
-
-        ErrorDetails errorDetails = new ErrorDetails();
-        return new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);
-    }
     @ExceptionHandler(BirdNotFoundException.class)
     public ResponseEntity<ErrorDetails> handleEntityNotFound(BirdNotFoundException e, HttpServletRequest request) {
-    ErrorDetails error = new ErrorDetails();
-            error.setTimestamp(Instant.now());
-            error.setStatus(HttpStatus.NOT_FOUND.value());
-            error.setError("Resource Not found");
-            error.setMessage(e.getMessage());
-            error.setPath(request.getRequestURI());
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+        ErrorDetails error = new ErrorDetails();
+        error.setTimestamp(Instant.now());
+        error.setStatus(HttpStatus.NOT_FOUND.value());
+        error.setError("Resource Not found");
+        error.setMessage(e.getMessage());
+        error.setPath(request.getRequestURI());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
     }
 
     @ExceptionHandler(BirdSaveException.class)
@@ -97,17 +81,5 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
     }
 
-    @ExceptionHandler(BirdAPIException.class)
-    public ResponseEntity<ErrorDetails> handleBidAPIException(BirdAPIException exception, WebRequest webRequest) {
-        ErrorDetails errorDetails = new ErrorDetails();
-        return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
-    }
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<ErrorDetails> handleGlobalException(Exception exception, WebRequest webRequest){
-        ErrorDetails errorDetails = new ErrorDetails();
-        return new ResponseEntity<>(errorDetails, HttpStatus.FOUND);
-    }
-
 }
-
 

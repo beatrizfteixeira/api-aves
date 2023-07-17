@@ -1,6 +1,7 @@
-package com.grupo4.APIAvesdoBrasil.controller;
+package com.grupo4.APIAvesdoBrasil.BirdControllerIntegrationTest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.grupo4.APIAvesdoBrasil.controller.BirdsController;
 import com.grupo4.APIAvesdoBrasil.entity.Bird;
 
 import com.grupo4.APIAvesdoBrasil.service.BirdService;
@@ -12,6 +13,11 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -28,20 +34,29 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+
+
+
+@WebMvcTest(BirdsController.class)
+@AutoConfigureRestDocs
 class BirdsControllerTest {
 
-    private MockMvc mockMvc;
 
-    @Mock
-    private BirdService birdService;
+    @Autowired
+    MockMvc mockMvc;
+
+    @MockBean
+    BirdService birdService;
 
     @InjectMocks
-    private BirdsController birdsController;
+    BirdsController birdsController;
 
     @BeforeEach
     void setUp() {
         MockitoAnnotations.initMocks(this);
         mockMvc = MockMvcBuilders.standaloneSetup(birdsController).build();
+
+
     }
 
 

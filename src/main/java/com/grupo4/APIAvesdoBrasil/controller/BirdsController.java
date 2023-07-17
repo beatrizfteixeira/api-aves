@@ -16,7 +16,7 @@ public class BirdsController {
     @Autowired
     private BirdService birdService;
 
-    // POST
+
     // Insert a new bird to db http://localhost:8080/api/bird
     @PostMapping("/bird")
     public ResponseEntity<Bird> saveBird(@RequestBody Bird bird) {

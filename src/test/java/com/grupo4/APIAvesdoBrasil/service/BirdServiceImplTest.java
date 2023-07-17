@@ -2,10 +2,11 @@ package com.grupo4.APIAvesdoBrasil.service;
 
 import com.grupo4.APIAvesdoBrasil.entity.Bird;
 import com.grupo4.APIAvesdoBrasil.exception.BirdDeleteIdInvalidException;
-import com.grupo4.APIAvesdoBrasil.exception.BirdDeleteNotFoundException;
+
+import com.grupo4.APIAvesdoBrasil.exception.BirdNotFoundException;
 import com.grupo4.APIAvesdoBrasil.exception.BirdSaveException;
 import com.grupo4.APIAvesdoBrasil.repository.BirdsRepository;
-import com.grupo4.APIAvesdoBrasil.exception.EntityNotFoundException;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;

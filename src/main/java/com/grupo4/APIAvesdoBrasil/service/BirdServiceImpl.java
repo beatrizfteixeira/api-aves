@@ -3,6 +3,7 @@ package com.grupo4.APIAvesdoBrasil.service;
 import com.grupo4.APIAvesdoBrasil.entity.Bird;
 import com.grupo4.APIAvesdoBrasil.exception.*;
 import com.grupo4.APIAvesdoBrasil.repository.BirdsRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,8 +31,6 @@ public class BirdServiceImpl implements BirdService {
 
     @Override
     public Bird findById(int id) {
-
-//        return birdsRepository.getReferenceById(id);
 
         return birdsRepository.findById(id).orElseThrow(
                 () -> new BirdNotFoundException("Id "+id +" not found " ));
@@ -80,7 +79,7 @@ public class BirdServiceImpl implements BirdService {
         }
     }
 
-    // UPDATE COMMON NAME, DESCRIPTION, SCIENTIFIC NAME BY ID
+
     @Override
     public Bird updateCommonName(String commonName, int id) {
         Bird birdToBeUpdated = findById(id);
