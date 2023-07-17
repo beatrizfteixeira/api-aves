@@ -1,0 +1,4 @@
+CREATE DATABASE  IF NOT EXISTS `dbbirds`;
+USE `dbbirds`;
+
+DROP TABLE IF EXISTS `birds`;
