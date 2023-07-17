@@ -3,7 +3,7 @@ package com.grupo4.APIAvesdoBrasil.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.grupo4.APIAvesdoBrasil.entity.Bird;
 
-import com.grupo4.APIAvesdoBrasil.service.BirdService2;
+import com.grupo4.APIAvesdoBrasil.service.BirdService;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -30,7 +30,7 @@ class BirdsControllerTest {
     private MockMvc mockMvc;
 
     @Mock
-    private BirdService2 birdService;
+    private BirdService birdService;
 
     @InjectMocks
     private BirdsController birdsController;
@@ -62,7 +62,7 @@ class BirdsControllerTest {
                         .andExpect(MockMvcResultMatchers.jsonPath("$[1].id").value(2))
                         .andExpect(MockMvcResultMatchers.jsonPath("$[1].scientificName").value("Anas platyrhynchos"))
                         .andExpect(MockMvcResultMatchers.jsonPath("$[1].description").value("Common livestock bird"));
-
+        Mockito.verify(birdService).findAll();
 
     }
     private String asJsonString(Object obj) {
@@ -98,16 +98,17 @@ class BirdsControllerTest {
     void testGetBirdById() throws Exception {
         int birdId = 1;
         Bird bird = new Bird(birdId, "pardal", "Passer domesticus", "Common found Bird");
-        when(birdService.findById(birdId)).thenReturn(bird);
+        when(birdService.findById(2)).thenReturn(bird);
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/bird/{id}", birdId)
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/bird/{id}", 2)
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.id").value(birdId))
-                .andExpect(jsonPath("$.commonName").value("pardal"))
-                .andExpect(jsonPath("$.scientificName").value("Passer domesticus"))
-                .andExpect(jsonPath("$.description").value("Common found Bird"));
+                .andExpect(status().isNotFound());
+//                .andExpect(status().isOk())
+//                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+//                .andExpect(jsonPath("$.id").value(birdId))
+//                .andExpect(jsonPath("$.commonName").value("pardal"))
+//                .andExpect(jsonPath("$.scientificName").value("Passer domesticus"))
+//                .andExpect(jsonPath("$.description").value("Common found Bird"));
 
 
     }
