@@ -31,18 +31,6 @@ public class BirdServiceImpl implements BirdService {
             return birds;
         }
 
-
-
-//    @Override
-//    public Bird findById(int id) {
-//        Optional<Bird> birdRetrieved = birdsRepository.findById((id));
-//        if (birdRetrieved == null) {
-//            new ResourceNotFoundException("No Bird Found");
-//        }
-//        return birdRetrieved.get();
-//    }
-
-
     @Override
     public Bird findById(int id) {
 
