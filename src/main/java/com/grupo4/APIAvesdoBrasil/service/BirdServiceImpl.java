@@ -31,8 +31,7 @@ public class BirdServiceImpl implements BirdService {
 
     @Override
     public Bird findById(int id) {
-
-        return birdsRepository.findById(id).orElseThrow(
+       return birdsRepository.findById(id).orElseThrow(
                 () -> new BirdNotFoundException("Id "+id +" not found " ));
     }
 

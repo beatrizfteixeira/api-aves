@@ -48,11 +48,10 @@ class BirdServiceImplTest {
 
     @Test
     void testFindById() {
-        // Prepare test data
         int birdId = 1;
         Bird mockBird = new Bird(birdId, "Pardal", "Passer domesticus", "Common found Bird");
 
-        when(birdsRepository.getReferenceById(birdId)).thenReturn(mockBird);
+        when(birdsRepository.findById(birdId)).thenReturn(Optional.of(mockBird));
 
         Bird result = birdService.findById(birdId);
 
@@ -60,6 +59,7 @@ class BirdServiceImplTest {
         assertEquals(mockBird.getCommonName(), result.getCommonName());
         assertEquals(mockBird.getScientificName(), result.getScientificName());
         assertEquals(mockBird.getDescription(), result.getDescription());
+
     }
 
     @Test
